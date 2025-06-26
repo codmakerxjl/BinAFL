@@ -1,0 +1,73 @@
+--- Full Message Log ---
+Total messages recorded: 70
+
+[ A:38:2C.210][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ A:38:2C.213][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ A:38:2C.214][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ A:38:2D.3AD][TID: 67BC] HWND: 0x   30D6C | Msg: WM_NCLBUTTONDOWN    (0x  A1) | wParam: 0x       C | lParam: 0x  790A7F
+[ A:38:2E.218][TID: 67BC] HWND: 0x   30D6C | Msg: WM_NCLBUTTONDOWN    (0x  A1) | wParam: 0x       2 | lParam: 0x 13D0A84
+[ A:38:30. 20][TID: 67BC] HWND: 0x   D0E10 | Msg: WM_LBUTTONDOWN      (0x 201) | wParam: 0x       1 | lParam: 0x   D004F
+[ A:38:30. 8C][TID: 67BC] HWND: 0x   D0E10 | Msg: WM_LBUTTONUP        (0x 202) | wParam: 0x       0 | lParam: 0x   D004F
+[ A:38:32.34E][TID: 69D0] HWND: 0x  190D5A | Msg: WM_LBUTTONDOWN      (0x 201) | wParam: 0x       1 | lParam: 0x   50050
+[ A:38:32.3B0][TID: 69D0] HWND: 0x  190D5A | Msg: WM_LBUTTONUP        (0x 202) | wParam: 0x       0 | lParam: 0x   50050
+[ A:38:32.3B0][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x     3FE | lParam: 0x  190D5A
+[ A:38:32.3B0][TID: 67BC] HWND: 0x   40B04 | Msg: WM_LBUTTONDOWN      (0x 201) | wParam: 0x       1 | lParam: 0x  3F0124
+[ A:38:32.3B0][TID: 67BC] HWND: 0x   40B04 | Msg: WM_LBUTTONUP        (0x 202) | wParam: 0x       0 | lParam: 0x  3F0124
+[ A:38:32.3B0][TID: 67BC] HWND: 0x   40B04 | Msg: WM_LBUTTONDBLCLK    (0x 203) | wParam: 0x       1 | lParam: 0x  3F0124
+[ A:38:32.3B2][TID: 67BC] HWND: 0x   40B04 | Msg: WM_LBUTTONUP        (0x 202) | wParam: 0x       0 | lParam: 0x  3F0124
+[ A:38:32.3B3][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ A:38:32.3B7][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ A:38:32.3B7][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ A:38:32.3BC][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ A:38:32.3C0][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ A:38:32.3C0][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ A:38:32.3C0][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ A:38:32.3C6][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ A:38:32.3C7][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ A:38:32.3D3][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ A:38:32.3D7][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ A:38:32.3D7][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ A:38:32.3D9][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ A:38:32.3DD][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ A:38:32.3DE][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ A:38:32.3E5][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ A:38:33.  4][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ A:38:33.  6][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ A:38:36.356][TID: 67BC] HWND: 0x   30D6C | Msg: WM_NCLBUTTONDOWN    (0x  A1) | wParam: 0x       C | lParam: 0x  610ABD
+[ A:38:37.29D][TID: 67BC] HWND: 0x   30D6C | Msg: WM_NCLBUTTONDOWN    (0x  A1) | wParam: 0x       2 | lParam: 0x 2100AA9
+[ A:38:39. AE][TID: 67BC] HWND: 0x   D0E10 | Msg: WM_LBUTTONDOWN      (0x 201) | wParam: 0x       1 | lParam: 0x  19005A
+[ A:38:39. FA][TID: 67BC] HWND: 0x   D0E10 | Msg: WM_LBUTTONUP        (0x 202) | wParam: 0x       0 | lParam: 0x  19005A
+[ B: 2:24.140][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_SYSCOMMAND       (0x 112) | wParam: 0x    F140 | lParam: 0x       0
+[ B:15:22.1AE][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_SYSCOMMAND       (0x 112) | wParam: 0x    F140 | lParam: 0x       0
+[ B:2C:2A.1B3][TID: 69D0] HWND: 0x  190D5A | Msg: WM_LBUTTONDOWN      (0x 201) | wParam: 0x       1 | lParam: 0x   B0029
+[ B:2C:2A.230][TID: 69D0] HWND: 0x  190D5A | Msg: WM_LBUTTONUP        (0x 202) | wParam: 0x       0 | lParam: 0x   B0029
+[ B:2C:2A.230][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x     3FE | lParam: 0x  190D5A
+[ B:2C:2A.230][TID: 67BC] HWND: 0x   40B04 | Msg: WM_LBUTTONDOWN      (0x 201) | wParam: 0x       1 | lParam: 0x  3F0124
+[ B:2C:2A.231][TID: 67BC] HWND: 0x   40B04 | Msg: WM_LBUTTONUP        (0x 202) | wParam: 0x       0 | lParam: 0x  3F0124
+[ B:2C:2A.231][TID: 67BC] HWND: 0x   40B04 | Msg: WM_LBUTTONDBLCLK    (0x 203) | wParam: 0x       1 | lParam: 0x  3F0124
+[ B:2C:2A.231][TID: 67BC] HWND: 0x   40B04 | Msg: WM_LBUTTONUP        (0x 202) | wParam: 0x       0 | lParam: 0x  3F0124
+[ B:2C:2A.233][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ B:2C:2A.236][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ B:2C:2A.236][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ B:2C:2A.239][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ B:2C:2A.23D][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ B:2C:2A.23E][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ B:2C:2A.23E][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ B:2C:2A.241][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ B:2C:2A.241][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ B:2C:2A.242][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ B:2C:2A.253][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ B:2C:2A.255][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ B:2C:2A.256][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ B:2C:2A.261][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ B:2C:2A.262][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ B:2C:2A.265][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 40003E9 | lParam: 0x  120D48
+[ B:2C:2A.26A][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 60203E9 | lParam: 0x  120D48
+[ B:2C:2A.26C][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_COMMAND          (0x 111) | wParam: 0x 30003E9 | lParam: 0x  120D48
+[ B:2C:2D.383][TID: 67BC] HWND: 0x   30D6C | Msg: WM_NCLBUTTONDOWN    (0x  A1) | wParam: 0x       C | lParam: 0x 11E0AA5
+[ B:2C:2E.1E3][TID: 67BC] HWND: 0x   30D6C | Msg: WM_NCLBUTTONDOWN    (0x  A1) | wParam: 0x       2 | lParam: 0x 2320A52
+[ B:2C:2F.3C3][TID: 67BC] HWND: 0x   30D6C | Msg: WM_NCLBUTTONDOWN    (0x  A1) | wParam: 0x       F | lParam: 0x 54D0816
+[ B:2C:30.13C][TID: 67BC] HWND: 0x   D0E10 | Msg: WM_LBUTTONDOWN      (0x 201) | wParam: 0x       1 | lParam: 0x  1D0059
+[ B:2C:30.1C5][TID: 67BC] HWND: 0x   D0E10 | Msg: WM_LBUTTONUP        (0x 202) | wParam: 0x       0 | lParam: 0x  1D0059
+[ B:2C:36. 8D][TID: 69D0] HWND: 0x  3A0CC2 | Msg: WM_NCLBUTTONDOWN    (0x  A1) | wParam: 0x      14 | lParam: 0x  4004BC
+[ B:2C:38.1F5][TID: 690C] HWND: 0x   20E88 | Msg: WM_CLOSE            (0x  10) | wParam: 0x       0 | lParam: 0x       0
