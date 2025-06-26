@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <wchar.h>
+
+// 假设AcDwgFileHandle相关结构体和函数指针定义
+typedef struct AcDwgFileHandle {
+    void** vtable;
+    FILE*  fp;
+} AcDwgFileHandle;
+
+// 虚函数表模拟（部分偏移用于readDwgFile调用）
+void* AcDwgFileHandle_vtable[8];
+
+// AcDwgFileHandle::open函数声明（根据f1.txt分析，实际实现略）
+typedef AcDwgFileHandle* (*pfnOpenHandle)(
+    const wchar_t *filename,
+    unsigned int flags,
+    int* errorStatus,
+    int (*callback)(int, int, int, int),
+    char extra);
+
+pfnOpenHandle AcDwgFileHandle_open = 0; // 动态加载或偏移计算（样例设为0）
+
+// AcDbDatabase结构体定义（伪）
+typedef struct AcDbDatabase {
+    void* vptr;
+    void* imp;
+} AcDbDatabase;
+
+// AcDbDatabase::readDwgFile函数声明
+typedef int  (*pfnReadDwgFile)(AcDbDatabase* pdb, AcDwgFileHandle* handle, char opt, void* ctx);
+pfnReadDwgFile AcDbDatabase_readDwgFile = 0; // 动态加载
+
+// 句柄构造示例（简单把vtable赋值，文件打开）
+AcDwgFileHandle* MyOpenDwgFile(const wchar_t* path)
+{
+    AcDwgFileHandle* handle = (AcDwgFileHandle*)malloc(sizeof(AcDwgFileHandle));
+    handle->vtable = AcDwgFileHandle_vtable;
+    handle->fp = _wfopen(path, L"rb");
+    return handle;
+}
+
+// Harness主体
+int harness_readDwgFile(const wchar_t* dwgPath)
+{
+    // 1. 准备AcDbDatabase实例
+    AcDbDatabase* pdb = (AcDbDatabase*)malloc(sizeof(AcDbDatabase));
+    memset(pdb, 0, sizeof(AcDbDatabase));
+    // 2. 准备DWG文件句柄
+    AcDwgFileHandle* handle = MyOpenDwgFile(dwgPath);
+    if (!handle || !handle->fp) {
+        printf("open dwg failed\n");
+        return 0;
+    }
+    // 3. 调用目标readDwgFile
+    char opt = 0; // 假定参数
+    void* ctx = NULL;
+    if (AcDbDatabase_readDwgFile) { // 实地址赋值，否则模拟调用
+        int result = AcDbDatabase_readDwgFile(pdb, handle, opt, ctx);
+        printf("readDwgFile result: %d\n", result);
+    } else {
+        printf("readDwgFile function pointer not set!\n");
+    }
+    // 4. 资源释放
+    fclose(handle->fp);
+    free(handle);
+    free(pdb);
+    return 1;
+}
+
+// main入口参考harness_example
+int main(int argc, char* argv[])
+{
+    if (argc != 2) {
+        printf("Parameter Error\n");
+        return -1;
+    }
+    wchar_t ws[260] = {0};
+    swprintf(ws, 260, L"%hs", argv[1]);
+    printf("dwg path: %ls\n", ws);
+    // 动态加载dll/so与符号，设置AcDbDatabase_readDwgFile、AcDwgFileHandle_open等
+    // harness调用
+    harness_readDwgFile(ws);
+    return 0;
+}

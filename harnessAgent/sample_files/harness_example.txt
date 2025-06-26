@@ -1,0 +1,43 @@
+//定义bmp解析函数的函数指针
+typedef char (__thiscall *pfun)(void* pthis, void* pcxfile);
+pfun BmpFun = 0;
+//定义CxImage结构体构造函数的函数指针
+...
+...
+
+int praseFile(wchar_t * path,void* pcximage)
+{
+    FILE* hfile = WfopenFun(path, L"rb");
+    CxFile cxfile;
+    cxfile.pvtable = (void**)cxfilevtable;
+    cxfile.phfile = hfile;
+    void* pcximage = malloc(0x250);
+    CxImageFun(pcximage, 0);
+    BmpFun(pcximage, &cxfile)
+    CxfDestory(pcximage);    
+    FcloseFun(hfile);
+    return 1;
+}
+
+int main(int argc, char *argv[])
+{
+
+    if (2 != argc)
+    {
+        printf("Parameter Error\n");
+    }
+    swprintf(ws, 100, L"%hs", argv[1]);
+    wprintf(L"%s\n", ws);
+    hdll = LoadLibraryA("cximage.dll");
+    if (hdll)
+    {
+        printf("load success\n");
+    }
+    BmpFun = (pfun)((DWORD)hdll+0x1BD0);
+    ...
+    ...
+    void* pcximage = malloc(0x1f0);
+    praseFile(ws,pcximage);
+    FreeLibrary(hdll);
+    return 0;
+}

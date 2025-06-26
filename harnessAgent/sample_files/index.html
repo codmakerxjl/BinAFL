@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinese Chess (Xiangqi)</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="chessboard" id="chessboard">
+            <!-- Chessboard will be generated via JavaScript -->
+        </div>
+        <div class="game-controls">
+            <button id="start-btn">Start Game</button>
+            <button id="reset-btn">Reset Game</button>
+            <button id="undo-btn">Undo Move</button>
+            <button id="save-btn">Save Game</button>
+            <button id="load-btn">Load Game</button>
+            <button id="sound-btn">Toggle Sound</button>
+        </div>
+        <div class="player-info">
+            <div id="red-player">Red Player</div>
+            <div id="black-player">Black Player</div>
+        </div>
+        <div class="game-status" id="game-status">
+            <!-- Game status will be updated dynamically -->
+        </div>
+    </div>
+    <script src="js/game.js"></script>
+    <script src="js/ui.js"></script>
+</body>
+</html>

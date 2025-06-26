@@ -1,0 +1,42 @@
+2025-05-27 00:55:45,649 - root - ERROR - Task with ID non_existent_id not found
+File: E:\winfuzz\MCPAgent\openai-agents-python\examples\harnessAgent\tasks\task_manager.py:101
+Function: update_task_status
+Traceback:
+None
+----------------------------------------
+2025-05-27 00:55:45,649 - root - ERROR - Task not found error
+File: E:\winfuzz\MCPAgent\openai-agents-python\examples\harnessAgent\tests\test_logger.py:16
+Function: test_error_logging
+Traceback:
+(<class 'ValueError'>, ValueError('Task with ID non_existent_id not found'), <traceback object at 0x000002748012EEC0>)
+----------------------------------------
+Traceback (most recent call last):
+  File "E:\winfuzz\MCPAgent\openai-agents-python\examples\harnessAgent\tests\test_logger.py", line 14, in test_error_logging
+    task_manager.update_task_status("non_existent_id", "completed")
+  File "E:\winfuzz\MCPAgent\openai-agents-python\examples\harnessAgent\tasks\task_manager.py", line 102, in update_task_status
+    raise ValueError(error_msg)
+ValueError: Task with ID non_existent_id not found
+2025-05-27 00:55:45,663 - root - ERROR - Invalid JSON error
+File: E:\winfuzz\MCPAgent\openai-agents-python\examples\harnessAgent\tests\test_logger.py:25
+Function: test_error_logging
+Traceback:
+(<class 'json.decoder.JSONDecodeError'>, JSONDecodeError('Expecting value: line 1 column 1 (char 0)'), <traceback object at 0x00000274803A55C0>)
+----------------------------------------
+Traceback (most recent call last):
+  File "E:\winfuzz\MCPAgent\openai-agents-python\examples\harnessAgent\tests\test_logger.py", line 23, in test_error_logging
+    task_manager.load_tasks()
+  File "E:\winfuzz\MCPAgent\openai-agents-python\examples\harnessAgent\tasks\task_manager.py", line 94, in load_tasks
+    task_data = json.load(f)
+                ^^^^^^^^^^^^
+  File "E:\Users\15840\miniconda3\Lib\json\__init__.py", line 293, in load
+    return loads(fp.read(),
+           ^^^^^^^^^^^^^^^^
+  File "E:\Users\15840\miniconda3\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Users\15840\miniconda3\Lib\json\decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\Users\15840\miniconda3\Lib\json\decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)

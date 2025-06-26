@@ -1,0 +1,54 @@
+// 伪代码
+
+struct AcDwgFileHandle *__fastcall AcDwgFileHandle::open(
+    const wchar_t *a1,
+    unsigned int a2,
+    enum Acad::ErrorStatus *a3,
+    int (*a4)(int, int, int, int),
+    char a5)
+{
+    int v8 = (a2 & 1) + 1;
+    if ((a2 & 0x10) != 0)
+    {
+        if (a3)
+            *(_DWORD *)a3 = 3;
+        return 0LL;
+    }
+    else
+    {
+        int v9 = 2 - ((a2 & 3) != 0);
+        if (a2 & 8)
+            v9 = 2;
+        unsigned int v10 = a2 >> 5;
+        LOBYTE(v10) = (a2 & 0x20) != 0;
+        __int64 v11 = sub_1800CAE78((_DWORD)a1, v8, v9, v10, (a2 & 4) != 0, (__int64)&v14, (__int64)a4, a5);
+        __int64 v12 = v11;
+        if (v11 && (a2 & 0x1000) != 0)
+            (*(void (__fastcall **)(__int64))(*(_QWORD *)v11 + 248LL))(v11);
+        if (a3)
+            *(_DWORD *)a3 = v14;
+        return (struct AcDwgFileHandle *)v12;
+    }
+}
+
+// 分析
+
+该函数是 AcDwgFileHandle 类的 open 方法，用于根据传入的参数打开 DWG 文件。
+
+1. 参数说明：
+   - a1: 文件路径。
+   - a2: 打开文件的标志或模式（多个位域控制操作流程）。
+   - a3: 返回错误状态的指针。
+   - a4: 回调函数指针。
+   - a5: 额外参数。
+
+2. 主要逻辑：
+   - 通过位运算解析 a2 的不同位，对打开流程进行条件判断。
+   - 若 a2 的第5位(0x10)被设置，则函数会直接返回，并为错误状态赋值（若a3非空）。
+   - 否则会根据 a2 进一步计算需要传递的参数，调用 sub_1800CAE78 进行文件句柄的实际创建。
+   - 成功且 a2 的第13位(0x1000)被设置时，会对返回的文件句柄做额外的操作（调用偏移为248的虚函数）。
+   - 最终将结果和错误状态返回。
+
+3. 总结：
+   - 该函数体现了典型的基于位掩码参数控制行为的 C++ 文件打开/管理方式，具备较强的可扩展性，且错误处理严谨。
+   - 代码中的 sub_1800CAE78 是具体实现句柄创建的核心，而虚表相关的操作暗示可能存在多种文件句柄实现。

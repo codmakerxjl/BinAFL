@@ -1,0 +1,29 @@
+地址: 0x1800f8b38
+函数名: AcDbDatabase::readDwgFile
+原型: __int64 __fastcall AcDbDatabase::readDwgFile(__int64 a1, struct AcDwgFileHandle *a2, char a3, __int64 a4)
+
+伪代码:
+--------------------------------------
+char *v8 = (char *)(*(__int64 (__fastcall **)(struct AcDwgFileHandle *))(*(_QWORD *)a2 + 32LL))(a2);
+sub_180060A00((__int64)v13, v8);
+sub_180061FE0((__int64)v14, (__int64)v13);
+const wchar_t *v9 = (const wchar_t *)&v16;
+if (v15 < 0)
+    v9 = v16;
+PerfLog_WriteReadDwgEvent(v9, 1);
+sub_180032CC0((__int64)v13);
+LOBYTE(v10) = a3;
+unsigned int v11 = sub_1800CBF60(*(AcDbImpDatabase **)(a1 + 8), a2, v10, a4);
+sub_1800F89EC((__int64)v14);
+return v11;
+--------------------------------------
+
+分析:
+1. 该函数是 AcDbDatabase 类的成员函数，名为 readDwgFile，用于读取 DWG 文件。参数 a2 应该是某种 DWG 文件句柄。
+2. 首先通过虚函数表获得 a2（DWG 文件句柄）上的一段数据并储存到 v8，然后通过 sub_180060A00 和 sub_180061FE0 初始化结构体变量（v13、v14）。
+3. v15 作为条件，决定 v9 的值，用于后续的日志或事件写入（PerfLog_WriteReadDwgEvent）。
+4. 随后调用 sub_180032CC0 清理或处理部分数据。
+5. sub_1800CBF60 是核心数据处理/载入逻辑，涉及数据库对象、文件句柄、参数 a3（byte）和 a4。
+6. 最后调用 sub_1800F89EC 清理，并返回处理结果 v11（应为 ErrorStatus 类型，可能是 int/enum）。
+7. 整体流程为文件句柄数据提取 -> 内部结构体准备 -> 日志事件记录 -> 数据加载 -> 资源清理 -> 返回状态。
+8. 该函数无直接文件名传入，侧重处理已打开的 DWG 文件句柄。

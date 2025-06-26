@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>穗部性状识别</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .trait-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .trait-section h2 {
+            color: #555;
+            margin-top: 0;
+        }
+        .trait-section p {
+            color: #666;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #444;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .input-group input.invalid {
+            border-color: #ff0000;
+            background-color: #ffeeee;
+        }
+        .error-message {
+            color: #ff0000;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9f7ef;
+            border: 1px solid #a5d6a7;
+            border-radius: 4px;
+            display: none;
+        }
+
+        /* Animation for input focus */
+        .input-group input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        /* Shake animation for invalid inputs */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .input-group input.invalid {
+            animation: shake 0.5s ease;
+        }
+
+        /* Checkmark for valid inputs */
+        .valid-checkmark {
+            color: #4CAF50;
+            margin-left: 5px;
+            display: none;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid #4CAF50;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Fade-in for results */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .result {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>穗部性状识别</h1>
+        
+        <div class="trait-section" id="lengthSection">
+            <h2>穗长</h2>
+            <p>测量穗的长度，单位为厘米。</p>
+            <div class="input-group">
+                <label for="length">穗长 (cm):</label>
+                <input type="number" id="length" placeholder="输入穗长" step="0.1" min="1" max="50">
+                <div id="lengthError" class="error-message"></div>
+            </div>
+            <button class="button" onclick="calculateLength()">计算</button>
+            <div id="lengthResult" class="result"></div>
+        </div>
+        
+        <div class="trait-section" id="widthSection">
+            <h2>穗宽</h2>
+            <p>测量穗的宽度，单位为厘米。</p>
+            <div class="input-group">
+                <label for="width">穗宽 (cm):</label>
+                <input type="number" id="width" placeholder="输入穗宽" step="0.1" min="0.1" max="10">
+                <div id="widthError" class="error-message"></div>
+            </div>
+            <button class="button" onclick="calculateWidth()">计算</button>
+            <div id="widthResult" class="result"></div>
+        </div>
+        
+        <div class="trait-section" id="weightSection">
+            <h2>穗重</h2>
+            <p>测量穗的重量，单位为克。</p>
+            <div class="input-group">
+                <label for="weight">穗重 (g):</label>
+                <input type="number" id="weight" placeholder="输入穗重" step="0.1" min="0.1" max="100">
+                <div id="weightError" class="error-message"></div>
+            </div>
+            <button class="button" onclick="calculateWeight()">计算</button>
+            <div id="weightResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        function validateInput(input, min, max, errorId, errorMessages) {
+            const value = parseFloat(input.value);
+            const errorElement = document.getElementById(errorId);
+            const button = input.closest('.trait-section').querySelector('.button');
+
+            if (isNaN(value)) {
+                input.classList.add('invalid');
+                errorElement.textContent = errorMessages.nonNumeric;
+                errorElement.style.display = 'block';
+                button.disabled = true;
+                return false;
+            }
+
+            if (value < min) {
+                input.classList.add('invalid');
+                errorElement.textContent = errorMessages.belowMin;
+                errorElement.style.display = 'block';
+                button.disabled = true;
+                return false;
+            }
+
+            if (value > max) {
+                input.classList.add('invalid');
+                errorElement.textContent = errorMessages.aboveMax;
+                errorElement.style.display = 'block';
+                button.disabled = true;
+                return false;
+            }
+
+            input.classList.remove('invalid');
+            errorElement.style.display = 'none';
+            button.disabled = false;
+            return true;
+        }
+
+        function classifyLength(length) {
+            if (length < 5) {
+                return '极短 (Very Short)';
+            } else if (length < 10) {
+                return '短 (Short)';
+            } else if (length < 20) {
+                return '中短 (Medium-Short)';
+            } else if (length < 30) {
+                return '中长 (Medium-Long)';
+            } else if (length < 40) {
+                return '长 (Long)';
+            } else {
+                return '极长 (Very Long)';
+            }
+        }
+
+        function calculateLength() {
+            const input = document.getElementById('length');
+            const isValid = validateInput(input, 1, 50, 'lengthError', {
+                nonNumeric: '请输入有效的数字。',
+                belowMin: '穗长不能小于1厘米。',
+                aboveMax: '穗长不能超过50厘米。'
+            });
+
+            if (isValid) {
+                const length = parseFloat(input.value);
+                const category = classifyLength(length);
+                const resultDiv = document.getElementById('lengthResult');
+                
+                // Show spinner
+                const spinner = document.createElement('div');
+                spinner.className = 'spinner';
+                resultDiv.innerHTML = '';
+                resultDiv.appendChild(spinner);
+                spinner.style.display = 'block';
+
+                // Simulate processing delay
+                setTimeout(() => {
+                    spinner.style.display = 'none';
+                    resultDiv.innerHTML = `
+                        <div class="result-content">
+                            <span class="result-icon">📏</span>
+                            <div class="result-text">
+                                <strong>穗长计算结果:</strong> ${length} cm<br>
+                                <strong>分类:</strong> ${category}
+                            </div>
+                        </div>
+                    `;
+                    resultDiv.style.display = 'block';
+                }, 1000);
+            }
+        }
+
+        function classifyWidth(width) {
+            if (width < 1) {
+                return '极窄 (Very Narrow)';
+            } else if (width < 3) {
+                return '窄 (Narrow)';
+            } else if (width < 5) {
+                return '中窄 (Medium-Narrow)';
+            } else if (width < 7) {
+                return '中宽 (Medium-Wide)';
+            } else if (width < 9) {
+                return '宽 (Wide)';
+            } else {
+                return '极宽 (Very Wide)';
+            }
+        }
+
+        function calculateWidth() {
+            const input = document.getElementById('width');
+            const isValid = validateInput(input, 0.1, 10, 'widthError', {
+                nonNumeric: '请输入有效的数字。',
+                belowMin: '穗宽不能小于0.1厘米。',
+                aboveMax: '穗宽不能超过10厘米。'
+            });
+
+            if (isValid) {
+                const width = parseFloat(input.value);
+                const category = classifyWidth(width);
+                const resultDiv = document.getElementById('widthResult');
+                
+                // Show spinner
+                const spinner = document.createElement('div');
+                spinner.className = 'spinner';
+                resultDiv.innerHTML = '';
+                resultDiv.appendChild(spinner);
+                spinner.style.display = 'block';
+
+                // Simulate processing delay
+                setTimeout(() => {
+                    spinner.style.display = 'none';
+                    resultDiv.innerHTML = `
+                        <div class="result-content">
+                            <span class="result-icon">📐</span>
+                            <div class="result-text">
+                                <strong>穗宽计算结果:</strong> ${width} cm<br>
+                                <strong>分类:</strong> ${category}
+                            </div>
+                        </div>
+                    `;
+                    resultDiv.style.display = 'block';
+                }, 1000);
+            }
+        }
+
+        function classifyWeight(weight) {
+            if (weight < 10) {
+                return '极轻 (Very Light)';
+            } else if (weight < 20) {
+                return '轻 (Light)';
+            } else if (weight < 40) {
+                return '中轻 (Medium-Light)';
+            } else if (weight < 60) {
+                return '中重 (Medium-Heavy)';
+            } else if (weight < 80) {
+                return '重 (Heavy)';
+            } else {
+                return '极重 (Very Heavy)';
+            }
+        }
+
+        function calculateWeight() {
+            const input = document.getElementById('weight');
+            const isValid = validateInput(input, 0.1, 100, 'weightError', {
+                nonNumeric: '请输入有效的数字。',
+                belowMin: '穗重不能小于0.1克。',
+                aboveMax: '穗重不能超过100克。'
+            });
+
+            if (isValid) {
+                const weight = parseFloat(input.value);
+                const category = classifyWeight(weight);
+                const resultDiv = document.getElementById('weightResult');
+                
+                // Show spinner
+                const spinner = document.createElement('div');
+                spinner.className = 'spinner';
+                resultDiv.innerHTML = '';
+                resultDiv.appendChild(spinner);
+                spinner.style.display = 'block';
+
+                // Simulate processing delay
+                setTimeout(() => {
+                    spinner.style.display = 'none';
+                    resultDiv.innerHTML = `
+                        <div class="result-content">
+                            <span class="result-icon">⚖️</span>
+                            <div class="result-text">
+                                <strong>穗重计算结果:</strong> ${weight} g<br>
+                                <strong>分类:</strong> ${category}
+                            </div>
+                        </div>
+                    `;
+                    resultDiv.style.display = 'block';
+                }, 1000);
+            }
+        }
+
+        // Initialize progress bars
+        document.addEventListener('DOMContentLoaded', function() {
+            const traits = ['length', 'width', 'weight'];
+            traits.forEach(trait => {
+                const input = document.getElementById(trait);
+                input.addEventListener('input', function() {
+                    const value = parseFloat(this.value);
+                    if (!isNaN(value)) {
+                        const max = parseFloat(this.max);
+                        const progressBar = document.getElementById(`${trait}Progress`);
+                        if (progressBar) {
+                            const percentage = (value / max) * 100;
+                            progressBar.style.width = `${percentage}%`;
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

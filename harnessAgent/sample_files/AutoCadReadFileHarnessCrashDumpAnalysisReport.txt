@@ -1,0 +1,27 @@
+### **AutoCAD Read File Harness Crash Dump Analysis Report**
+
+#### **Root Cause**
+The crash was caused by a **NULL pointer dereference** in the `acpal.dll` module, specifically in the function `Autodesk::AutoCAD::PAL::FileIO::lastError`. This led to an **Access Violation (c0000005)**.
+
+#### **Key Findings**
+1. **Exception Code**: `c0000005` (Access Violation)
+2. **Faulting Module**: `acpal.dll` (Autodesk AutoCAD PAL Library)
+3. **Faulting Function**: `Autodesk::AutoCAD::PAL::FileIO::lastError`
+4. **Error Type**: `NULL_POINTER_READ`
+5. **Process Name**: `FuzzReadfileHarness.exe`
+
+#### **Supporting Evidence**
+- **Stack Trace**: The crash originated from the `lastError` function, which attempted to read from a NULL pointer (`rax=0000000000000000`).
+- **Register State**: The `rax` register held a NULL value at the time of the crash.
+- **Execution Flow**: The issue propagated from the test harness (`FuzzReadfileHarness.exe`) through the AutoCAD libraries (`acpal.dll` and `acdb25.dll`).
+
+#### **Recommendations**
+1. **Code Review**: Inspect the `lastError` function in `acpal.dll` to ensure proper NULL pointer checks.
+2. **Input Validation**: Validate file inputs in the test harness (`FuzzReadfileHarness.exe`) before passing them to the AutoCAD libraries.
+3. **Debugging**: Use WinDBG to trace the execution flow leading to the NULL pointer dereference.
+
+#### **Report Location**
+This report has been saved to:
+- `sample_files/AutoCadReadFileHarnessCrashDumpAnalysisReport.txt`
+
+Let me know if you'd like further assistance or additional analysis!

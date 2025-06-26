@@ -1,0 +1,227 @@
+/* Base Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.game-container {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.player-stats {
+    margin-bottom: 20px;
+}
+
+.player {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.player.red span:first-child {
+    color: #ff4444;
+    font-weight: bold;
+}
+
+.player.black span:first-child {
+    color: #333;
+    font-weight: bold;
+}
+
+.move-history {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.move-history h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.move-history ul {
+    list-style: none;
+    padding: 0;
+}
+
+.move-history li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.move-history li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+.controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.controls button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+.controls button:active {
+    transform: translateY(0);
+}
+
+.turn-indicator {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.turn-indicator #current-player {
+    color: #ff4444;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Board */
+.board {
+    display: grid;
+    grid-template-columns: repeat(9, 60px);
+    grid-template-rows: repeat(10, 60px);
+    gap: 1px;
+    background-color: #8B4513; /* Wooden board color */
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.cell {
+    width: 60px;
+    height: 60px;
+    background-color: #f5deb3; /* Light wood color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cell:hover {
+    background-color: #e6c88a;
+}
+
+.river {
+    background-color: #a0d8ef;
+    background-image: linear-gradient(to bottom, #a0d8ef, #88c0d8);
+}
+
+.palace {
+    background-color: #ffcccc;
+    background-image: linear-gradient(to bottom, #ffcccc, #ffaaaa);
+}
+
+/* Pieces */
+.piece {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: grab;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.piece:active {
+    cursor: grabbing;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.red-piece {
+    background-color: #ff4444;
+    color: white;
+    background-image: linear-gradient(to bottom, #ff4444, #cc0000);
+}
+
+.black-piece {
+    background-color: #333;
+    color: white;
+    background-image: linear-gradient(to bottom, #333, #000);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .game-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+    }
+    .board {
+        grid-template-columns: repeat(9, 40px);
+        grid-template-rows: repeat(10, 40px);
+    }
+    .cell {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    .piece {
+        width: 35px;
+        height: 35px;
+    }
+    .controls button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
