@@ -1,6 +1,6 @@
 #include "SharedMemoryIPC.h"
 #include <system_error> // 用于更详细的错误信息
-#include"pch.h"
+#include "pch.h"
 // 辅助函数，用于抛出带 WinAPI 错误码的异常
 void throw_windows_error(const std::string& message) {
     throw std::runtime_error(
@@ -24,9 +24,18 @@ SharedMemoryIPC::SharedMemoryIPC(Role role) : role_(role) {
         0,
         sizeof(SharedData)
     ));
-
+    pControlPacket_ = static_cast<ControlPacket*>(MapViewOfFile(
+        hMapFile_,
+        FILE_MAP_ALL_ACCESS,
+        0,
+        0,
+        sizeof(ControlPacket)
+    ));
     if (pSharedData_ == nullptr) {
-        throw_windows_error("MapViewOfFile failed");
+        throw_windows_error("pSharedData_MapViewOfFile failed");
+    }
+    if (pControlPacket_ == nullptr) {
+        throw_windows_error("pControlPacket_MapViewOfFile failed");
     }
 }
 
@@ -111,6 +120,24 @@ bool SharedMemoryIPC::write(const SharedData& data, DWORD timeout) {
 
     return true;
 }
+bool SharedMemoryIPC::write(const ControlPacket& data, DWORD timeout) {
+    // 1. 等待缓冲区空闲 (等待 SemServerReady 信号量)
+    DWORD waitResult = WaitForSingleObject(hSemServerReady_, timeout);
+    if (waitResult != WAIT_OBJECT_0) {
+        if (waitResult == WAIT_TIMEOUT) return false; // 超时
+        throw_windows_error("WaitForSingleObject on SemServerReady failed in write()");
+    }
+
+    // 2. 写入数据
+    memcpy(pControlPacket_, &data, sizeof(ControlPacket));
+
+    // 3. 通知消费者数据已准备好 (释放 SemDataReady 信号量)
+    if (!ReleaseSemaphore(hSemDataReady_, 1, NULL)) {
+        throw_windows_error("ReleaseSemaphore on SemDataReady failed in write()");
+    }
+
+    return true;
+}
 
 bool SharedMemoryIPC::read(SharedData& data, DWORD timeout) {
     // 1. 等待数据就绪 (等待 SemDataReady 信号量)
@@ -122,6 +149,25 @@ bool SharedMemoryIPC::read(SharedData& data, DWORD timeout) {
 
     // 2. 读取数据
     memcpy(&data, pSharedData_, sizeof(SharedData));
+
+    // 3. 通知生产者缓冲区已空闲 (释放 SemServerReady 信号量)
+    if (!ReleaseSemaphore(hSemServerReady_, 1, NULL)) {
+        throw_windows_error("ReleaseSemaphore on SemServerReady failed in read()");
+    }
+
+    return true;
+}
+
+bool SharedMemoryIPC::read(ControlPacket& data, DWORD timeout) {
+    // 1. 等待数据就绪 (等待 SemDataReady 信号量)
+    DWORD waitResult = WaitForSingleObject(hSemDataReady_, timeout);
+    if (waitResult != WAIT_OBJECT_0) {
+        if (waitResult == WAIT_TIMEOUT) return false; // 超时
+        throw_windows_error("WaitForSingleObject on SemDataReady failed in read()");
+    }
+
+    // 2. 读取数据
+    memcpy(&data, pControlPacket_, sizeof(ControlPacket));
 
     // 3. 通知生产者缓冲区已空闲 (释放 SemServerReady 信号量)
     if (!ReleaseSemaphore(hSemServerReady_, 1, NULL)) {

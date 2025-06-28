@@ -3,6 +3,8 @@
 #include <windows.h>
 #include <string>
 #include <stdexcept> // 用于抛出异常
+#include "ipc_control.h"
+
 
 // 共享数据结构
 struct SharedData {
@@ -56,7 +58,9 @@ public:
      */
     bool read(SharedData& data, DWORD timeout = INFINITE);
 
-
+    //对控制packet的读写重载
+    bool write(const ControlPacket& packet, DWORD timeout = INFINITE);
+    bool read(ControlPacket& packet, DWORD timeout = INFINITE);
 private:
     void create_resources();
     void open_resources();
@@ -66,4 +70,5 @@ private:
     HANDLE hSemServerReady_ = NULL;
     HANDLE hSemDataReady_ = NULL;
     SharedData* pSharedData_ = nullptr;
+    ControlPacket* pControlPacket_ = nullptr;
 };

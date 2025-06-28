@@ -1,9 +1,0 @@
-﻿  BinServer.cpp
-  pch.cpp
-  server_test.cpp
-  SharedMemoryIPC.cpp
-  start_process.cpp
-  正在生成代码...
-  BinServer.vcxproj -> E:\ICT\masterRecording\BinAFL\BinAFL\x64\Debug\BinServer.exe
-  'pwsh.exe' 不是内部或外部命令，也不是可运行的程序
-  或批处理文件。

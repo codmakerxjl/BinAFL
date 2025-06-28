@@ -30,6 +30,9 @@
     <ClCompile Include="server_test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CommandController.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="start_process.h">
@@ -42,6 +45,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="server_test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ipc_control.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandController.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

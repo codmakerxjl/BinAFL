@@ -8,5 +8,5 @@
 #include <windows.h>
 #include "SharedMemoryIPC.h"
 bool Initialize();
-
+void ControlThreadProc();
 #endif //PCH_H

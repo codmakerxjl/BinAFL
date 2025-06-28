@@ -39,6 +39,9 @@
     <ClInclude Include="MessageFilter.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ipc_control.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

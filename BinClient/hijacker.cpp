@@ -9,6 +9,8 @@
 #include <codecvt>
 #include <locale>
 static LRESULT(WINAPI* TrueDispatchMessageW)(const MSG* lpMsg) = DispatchMessageW;
+//记录日志是否开启的原子标志
+static std::atomic<bool> g_isLoggingActive = false;
 
 std::string MessageIDToString(UINT msg) {
 	// 该映射表只会在第一次调用时被初始化
@@ -267,7 +269,7 @@ std::string MessageIDToString(UINT msg) {
 
 
 LRESULT WINAPI HackedDispatchMessageW(const MSG* lpMsg) {
-	if (lpMsg != nullptr) {
+	if (g_isLoggingActive && lpMsg != nullptr) {
 		// 1. 从过滤器获取处理动作
 		FilterAction action = MessageFilter::GetInstance().check(lpMsg->message);
 
@@ -298,7 +300,16 @@ LRESULT WINAPI HackedDispatchMessageW(const MSG* lpMsg) {
 	return TrueDispatchMessageW(lpMsg);
 }
 
+// 控制函数实现
+void StartMessageLogging() {
+	g_isLoggingActive = true;
+	FileLogger::GetInstance().Log(0, L"--- Logging Started by Server Command ---");
+}
 
+void StopMessageLogging() {
+	FileLogger::GetInstance().Log(0, L"--- Logging Stopped by Server Command ---");
+	g_isLoggingActive = false;
+}
 
 bool AttachHooks() {
 	try {

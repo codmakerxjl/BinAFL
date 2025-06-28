@@ -145,6 +145,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="hijacker.h" />
     <ClInclude Include="FileLogger.h" />
+    <ClInclude Include="ipc_control.h" />
     <ClInclude Include="MessageFilter.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SharedMemoryIPC.h" />

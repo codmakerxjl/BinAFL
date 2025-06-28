@@ -129,12 +129,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BinServer.cpp" />
+    <ClCompile Include="CommandController.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="server_test.cpp" />
     <ClCompile Include="SharedMemoryIPC.cpp" />
     <ClCompile Include="start_process.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommandController.h" />
+    <ClInclude Include="ipc_control.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="server_test.h" />
     <ClInclude Include="SharedMemoryIPC.h" />

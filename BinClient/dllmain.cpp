@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "hijacker.h"
 #include "client_test.h"
-
+#include <thread>
 // The communication thread now just calls our test function.
 DWORD WINAPI CommunicationThread(LPVOID lpParam) {
     run_client_test();
@@ -26,6 +26,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 
         MessageBox(NULL, L"BinClient Attached to Process!", L"Notification", MB_OK | MB_ICONINFORMATION);
         AttachHooks();
+        std::thread(ControlThreadProc).detach(); //用来接受server的命令
         break;
     }
         

@@ -1,7 +1,0 @@
-E:\ICT\masterRecording\BinAFL\BinClient\client_test.cpp;E:\ICT\masterRecording\BinAFL\BinClient\x64\Debug\client_test.obj
-E:\ICT\masterRecording\BinAFL\BinClient\dllmain.cpp;E:\ICT\masterRecording\BinAFL\BinClient\x64\Debug\dllmain.obj
-E:\ICT\masterRecording\BinAFL\BinClient\hijacker.cpp;E:\ICT\masterRecording\BinAFL\BinClient\x64\Debug\hijacker.obj
-E:\ICT\masterRecording\BinAFL\BinClient\FileLogger.cpp;E:\ICT\masterRecording\BinAFL\BinClient\x64\Debug\FileLogger.obj
-E:\ICT\masterRecording\BinAFL\BinClient\MessageFilter.cpp;E:\ICT\masterRecording\BinAFL\BinClient\x64\Debug\MessageFilter.obj
-E:\ICT\masterRecording\BinAFL\BinClient\pch.cpp;E:\ICT\masterRecording\BinAFL\BinClient\x64\Debug\pch.obj
-E:\ICT\masterRecording\BinAFL\BinClient\SharedMemoryIPC.cpp;E:\ICT\masterRecording\BinAFL\BinClient\x64\Debug\SharedMemoryIPC.obj
