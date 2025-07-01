@@ -1,5 +1,7 @@
 #pragma once
 
+//这个是BinServer控制BinClient ipc模块
+
 // 定义了服务端可以发送给客户端的控制命令
 enum class ControlCommand {
     NO_OP,          // 无操作

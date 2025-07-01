@@ -104,11 +104,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,16 +129,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Agent.cpp" />
     <ClCompile Include="BinServer.cpp" />
     <ClCompile Include="CommandController.cpp" />
+    <ClCompile Include="message_replayer.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="server_test.cpp" />
     <ClCompile Include="SharedMemoryIPC.cpp" />
     <ClCompile Include="start_process.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Agent.h" />
     <ClInclude Include="CommandController.h" />
     <ClInclude Include="ipc_control.h" />
+    <ClInclude Include="message_replayer.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="server_test.h" />
     <ClInclude Include="SharedMemoryIPC.h" />
