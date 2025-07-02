@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BinClient", "..\BinClient\BinClient.vcxproj", "{402B2FE6-58DF-4DAF-AFAD-846430416447}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BinServer", "..\BinServer\BinServer.vcxproj", "{84F1599A-AE60-4098-AD7F-2CD58F85353A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppPythonSokcketIPC", "CppPythonSokcketIPC\CppPythonSokcketIPC.vcxproj", "{4D256648-484F-4537-BF04-D20AA9ADB381}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{402B2FE6-58DF-4DAF-AFAD-846430416447}.Debug|x64.ActiveCfg = Debug|x64
+		{402B2FE6-58DF-4DAF-AFAD-846430416447}.Debug|x64.Build.0 = Debug|x64
+		{402B2FE6-58DF-4DAF-AFAD-846430416447}.Debug|x86.ActiveCfg = Debug|Win32
+		{402B2FE6-58DF-4DAF-AFAD-846430416447}.Debug|x86.Build.0 = Debug|Win32
+		{402B2FE6-58DF-4DAF-AFAD-846430416447}.Release|x64.ActiveCfg = Release|x64
+		{402B2FE6-58DF-4DAF-AFAD-846430416447}.Release|x64.Build.0 = Release|x64
+		{402B2FE6-58DF-4DAF-AFAD-846430416447}.Release|x86.ActiveCfg = Release|Win32
+		{402B2FE6-58DF-4DAF-AFAD-846430416447}.Release|x86.Build.0 = Release|Win32
+		{84F1599A-AE60-4098-AD7F-2CD58F85353A}.Debug|x64.ActiveCfg = Debug|x64
+		{84F1599A-AE60-4098-AD7F-2CD58F85353A}.Debug|x64.Build.0 = Debug|x64
+		{84F1599A-AE60-4098-AD7F-2CD58F85353A}.Debug|x86.ActiveCfg = Debug|Win32
+		{84F1599A-AE60-4098-AD7F-2CD58F85353A}.Debug|x86.Build.0 = Debug|Win32
+		{84F1599A-AE60-4098-AD7F-2CD58F85353A}.Release|x64.ActiveCfg = Release|x64
+		{84F1599A-AE60-4098-AD7F-2CD58F85353A}.Release|x64.Build.0 = Release|x64
+		{84F1599A-AE60-4098-AD7F-2CD58F85353A}.Release|x86.ActiveCfg = Release|Win32
+		{84F1599A-AE60-4098-AD7F-2CD58F85353A}.Release|x86.Build.0 = Release|Win32
+		{4D256648-484F-4537-BF04-D20AA9ADB381}.Debug|x64.ActiveCfg = Debug|x64
+		{4D256648-484F-4537-BF04-D20AA9ADB381}.Debug|x64.Build.0 = Debug|x64
+		{4D256648-484F-4537-BF04-D20AA9ADB381}.Debug|x86.ActiveCfg = Debug|Win32
+		{4D256648-484F-4537-BF04-D20AA9ADB381}.Debug|x86.Build.0 = Debug|Win32
+		{4D256648-484F-4537-BF04-D20AA9ADB381}.Release|x64.ActiveCfg = Release|x64
+		{4D256648-484F-4537-BF04-D20AA9ADB381}.Release|x64.Build.0 = Release|x64
+		{4D256648-484F-4537-BF04-D20AA9ADB381}.Release|x86.ActiveCfg = Release|Win32
+		{4D256648-484F-4537-BF04-D20AA9ADB381}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D8752A17-0627-4208-9505-C26527E7D2F7}
+	EndGlobalSection
+EndGlobal
