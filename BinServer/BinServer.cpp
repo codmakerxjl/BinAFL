@@ -6,18 +6,31 @@
 #include "start_process.h"
 #include <windows.h>
 #include "pch.h"
-#include "server_test.h"
+#include "SimpleIniParser.h"
 #include "CommandController.h"
 #include "message_replayer.h"
 std::atomic<bool> g_bExitLogThread = false;
 
 int main(int argc, char* argv[])
-{
+{   
     // Check for correct command-line arguments.
     if (argc != 3) {
         fprintf(stderr, "Usage: %s <executable_path> <dll_path>\n", argv[0]);
         return 1;
     }
+
+    SimpleIniParser parser;
+    if (!parser.load("config.ini")) {
+        std::cerr << "无法加载配置文件" << std::endl;
+        return 1;
+    }
+    int waitingTime=parser.getInt("AgentClient", "waitingTime");
+    int agentPort=parser.getInt("AgentClient", "agentPort");
+    std::string logFilePath=parser.get("server", "logFilePath");
+    std::string messageFolderPath=parser.get("server", "messageFolderPath");
+    std::string messagePrefix=parser.get("server", "messagePrefix");
+    std::string effectiveMsgFolder=parser.get("server", "effectiveMsgFolder");
+
     // Convert char* to std::wstring using the user's original method.
     // For production code, consider using MultiByteToWideChar for more robust conversion.
     std::string exec_str(argv[1]);
@@ -29,7 +42,6 @@ int main(int argc, char* argv[])
 
     CommandController controller(ipc); //初始化
 
-
     wprintf(L"Target Executable: %s\n", executablePath.c_str());
     wprintf(L"Target DLL: %s\n", dllPath.c_str());
     PROCESS_INFORMATION pi = { 0 }; // Initialize to zero.
@@ -37,13 +49,11 @@ int main(int argc, char* argv[])
     startAndInjectProcess(pi, executablePath, dllPath); //启动目标程序并且注入dll
     controller.StartLogging();
 
-
-    Sleep(20000);
+    Sleep(waitingTime);
     Agent my_agent_handler;
-    my_agent_handler.startServer(12222);
+    my_agent_handler.startServer(agentPort);
 
-
-    std::string command = buildAgentPrompt("E:\\ICT\\masterRecording\\BinAFL\\BinAFL\\x64\\Debug\\hooked_messages.log", "E:\\ICT\\masterRecording\\BinAFL\\BinAFL\\x64\\Debug",12222);
+    std::string command = buildAgentPrompt(logFilePath,messageFolderPath,agentPort);
     std::string response = my_agent_handler.executeCommandViaAgent(command);
 
     if (response.find("done") != std::string::npos) {
@@ -58,10 +68,10 @@ int main(int argc, char* argv[])
 
     // 1. 创建一个消息重放器实例
     MessageReplayer replayer;
-    replayer.runInteractiveSession(".", "message_");
+    replayer.runInteractiveSession(messageFolderPath, messagePrefix);
 
     // 3. 会话结束后，将所有被标记为“有效”的文件保存到 "effective_sequences" 文件夹
-    replayer.saveEffectiveFiles("effective_sequences");
+    replayer.saveEffectiveFiles(effectiveMsgFolder);
 
     // 4. 打印最终结果
     std::cout << "\nInteractive session finished." << std::endl;

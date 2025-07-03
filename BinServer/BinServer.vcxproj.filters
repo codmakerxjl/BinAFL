@@ -18,25 +18,28 @@
     <ClCompile Include="BinServer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="start_process.cpp">
+    <ClCompile Include="agent\Agent.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="SharedMemoryIPC.cpp">
+    <ClCompile Include="ipc\SharedMemoryIPC.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="replayer\message_replayer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="server_test.cpp">
+    <ClCompile Include="util\CommandController.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CommandController.cpp">
+    <ClCompile Include="util\pch.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Agent.cpp">
+    <ClCompile Include="util\server_test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="message_replayer.cpp">
+    <ClCompile Include="util\SimpleIniParser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="util\start_process.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

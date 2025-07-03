@@ -70,6 +70,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ExternalIncludePath>E:\proj_chall\binafl\BinAFL\BinClient\include;$(ExternalIncludePath)</ExternalIncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -118,6 +121,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>E:\proj_chall\binafl\BinAFL\BinClient\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -140,29 +144,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="client_test.h" />
-    <ClInclude Include="detours.h" />
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="hijacker.h" />
-    <ClInclude Include="FileLogger.h" />
-    <ClInclude Include="ipc_control.h" />
-    <ClInclude Include="MessageFilter.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="SharedMemoryIPC.h" />
+    <ClCompile Include="client_test.cpp" />
+    <ClCompile Include="hooks\dllmain.cpp" />
+    <ClCompile Include="hooks\hijacker.cpp" />
+    <ClCompile Include="ipc\SharedMemoryIPC.cpp" />
+    <ClCompile Include="util\FileLogger.cpp" />
+    <ClCompile Include="util\MessageFilter.cpp" />
+    <ClCompile Include="util\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="util\SimpleIniParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="client_test.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="hijacker.cpp" />
-    <ClCompile Include="FileLogger.cpp" />
-    <ClCompile Include="MessageFilter.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="SharedMemoryIPC.cpp" />
+    <ClInclude Include="include\client_test.h" />
+    <ClInclude Include="include\detours.h" />
+    <ClInclude Include="include\FileLogger.h" />
+    <ClInclude Include="include\framework.h" />
+    <ClInclude Include="include\hijacker.h" />
+    <ClInclude Include="include\ipc_control.h" />
+    <ClInclude Include="include\MessageFilter.h" />
+    <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\SharedMemoryIPC.h" />
+    <ClInclude Include="include\SimpleIniParser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

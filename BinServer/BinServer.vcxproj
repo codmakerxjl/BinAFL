@@ -70,6 +70,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ExternalIncludePath>E:\proj_chall\binafl\BinAFL\BinServer\include;$(ExternalIncludePath)</ExternalIncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -129,14 +132,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="agent\Agent.cpp" />
     <ClCompile Include="BinServer.cpp" />
-    <ClCompile Include="CommandController.cpp" />
-    <ClCompile Include="message_replayer.cpp" />
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="server_test.cpp" />
-    <ClCompile Include="SharedMemoryIPC.cpp" />
-    <ClCompile Include="start_process.cpp" />
+    <ClCompile Include="ipc\SharedMemoryIPC.cpp" />
+    <ClCompile Include="replayer\message_replayer.cpp" />
+    <ClCompile Include="util\CommandController.cpp" />
+    <ClCompile Include="util\pch.cpp" />
+    <ClCompile Include="util\server_test.cpp" />
+    <ClCompile Include="util\SimpleIniParser.cpp" />
+    <ClCompile Include="util\start_process.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />

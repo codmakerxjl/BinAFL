@@ -1,4 +1,6 @@
 #include "pch.h"
+#include "SimpleIniParser.h"
+// #include "pch.h"
 #include "hijacker.h"
 #include "detours.h"
 #include "FileLogger.h"
@@ -8,6 +10,7 @@
 #include <sstream>
 #include <codecvt>
 #include <locale>
+// #include "SimpleIniParser.h"
 static LRESULT(WINAPI* TrueDispatchMessageW)(const MSG* lpMsg) = DispatchMessageW;
 //记录日志是否开启的原子标志
 static std::atomic<bool> g_isLoggingActive = false;
@@ -312,8 +315,14 @@ void StopMessageLogging() {
 }
 
 bool AttachHooks() {
+	SimpleIniParser parser;
+	if (!parser.load("config.ini")) {
+        std::cerr << "无法加载配置文件" << std::endl;
+        return 1;
+    }
+	std::string logFilePath=parser.get("server", "logFilePath");
 	try {
-		FileLogger::GetInstance().Init(L"hooked_messages.log");
+		FileLogger::GetInstance().Init(std::wstring(logFilePath.begin(), logFilePath.end()));
 		FileLogger::GetInstance().Log(0, L"--- Hooks Attached ---"); // 使用一个特殊ID (0)
 		DetourTransactionBegin();
 		DetourUpdateThread(GetCurrentThread());
