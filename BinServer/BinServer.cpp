@@ -49,7 +49,6 @@ int main(int argc, char* argv[])
     if (response.find("done") != std::string::npos) {
         wprintf(L"Agent has successfully analyzed the log based on heuristics.");
         wprintf(L"It's my time to replay the extracted sequences.");
-        // 在这里可以开始您的重放逻辑，去读取 message_sequence_*.log 文件
     }
     else {
         wprintf(L"Agent reported an error.\nResponse: %hs", response.c_str());
@@ -66,6 +65,28 @@ int main(int argc, char* argv[])
     // 4. 打印最终结果
     std::cout << "\nInteractive session finished." << std::endl;
     std::cout << "A total of " << replayer.getEffectiveFiles().size() << " sequences were marked as effective." << std::endl;
+
+
+    // 1. 一次性加载所有有效文件到内存中的主队列
+    // 这个操作可能需要几秒钟，取决于文件数量和大小
+    std::cout << "Loading all effective sequences into memory..." << std::endl;
+    if (replayer.loadAndAggregateSequences("effective_sequences", "message_")) {
+
+        // 2. 现在可以快速地、多次地重放整个聚合序列，无需再读文件
+        std::cout << "\nPress ENTER to replay the entire aggregated sequence for the first time.";
+        std::cin.get();
+        replayer.replayAggregatedSequence(10); // 以10毫秒的延迟重放
+
+        std::cout << "\nPress ENTER to replay it again instantly.";
+        std::cin.get();
+        replayer.replayAggregatedSequence(10); // 再次重放
+
+        // 3. 如果需要，可以清空队列
+        // replayer.clearAggregatedSequence();
+    }
+    else {
+        std::cout << "Failed to load any sequences. Please check the directory and prefix." << std::endl;
+    }
     WaitForSingleObject(pi.hProcess, INFINITE);
 
     //@这里是测试通讯管道的代码

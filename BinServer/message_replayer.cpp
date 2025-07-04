@@ -165,3 +165,66 @@ std::optional<ReplayMessage> MessageReplayer::parseLine(const std::string& line)
     }
     return std::nullopt;
 }
+
+/**
+ * @brief 从指定目录加载所有符合条件的序列文件，并将它们合并到一个总的消息队列中。
+ */
+bool MessageReplayer::loadAndAggregateSequences(const std::string& directory, const std::string& prefix) {
+    clearAggregatedSequence(); // 开始前先清空
+
+    auto filesToLoad = findAndSortSequenceFiles(directory, prefix);
+
+    if (filesToLoad.empty()) {
+        std::cerr << "No files found in directory '" << directory << "' with prefix '" << prefix << "'" << std::endl;
+        return false;
+    }
+
+    std::cout << "Aggregating " << filesToLoad.size() << " sequence files..." << std::endl;
+
+    for (const auto& filePath : filesToLoad) {
+        std::ifstream file(filePath);
+        if (!file.is_open()) {
+            std::cerr << "Error: Could not open file for aggregation: " << filePath << std::endl;
+            continue; // 跳过这个文件，继续处理下一个
+        }
+
+        std::string line;
+        while (std::getline(file, line)) {
+            if (auto parsedMsg = parseLine(line)) {
+                m_aggregatedSequence.push_back(*parsedMsg);
+            }
+        }
+    }
+
+    std::cout << "Aggregation complete. Total messages loaded: " << m_aggregatedSequence.size() << std::endl;
+    return !m_aggregatedSequence.empty();
+}
+
+/**
+ * @brief 重放由 loadAndAggregateSequences 函数加载的聚合消息队列。
+ */
+void MessageReplayer::replayAggregatedSequence(int delayBetweenMessagesMs) const {
+    if (m_aggregatedSequence.empty()) {
+        std::cout << "Aggregated sequence is empty. Nothing to replay." << std::endl;
+        return;
+    }
+
+    std::cout << "Replaying aggregated sequence of " << m_aggregatedSequence.size() << " messages..." << std::endl;
+    for (const auto& msg : m_aggregatedSequence) {
+        PostMessage(msg.hwnd, msg.msg, msg.wParam, msg.lParam);
+        if (delayBetweenMessagesMs > 0) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(delayBetweenMessagesMs));
+        }
+    }
+    std::cout << "Aggregated replay finished." << std::endl;
+}
+
+/**
+ * @brief 清空已聚合的消息队列。
+ */
+void MessageReplayer::clearAggregatedSequence() {
+    if (!m_aggregatedSequence.empty()) {
+        m_aggregatedSequence.clear();
+        // std::vector<ReplayMessage>().swap(m_aggregatedSequence); // 更彻底地释放内存（可选）
+    }
+}

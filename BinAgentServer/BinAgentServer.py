@@ -16,7 +16,7 @@ class CppConnector:
     """
     一个管理与C++服务器持久连接的类，具有独立的 send 和 receive 方法。
     """
-    def __init__(self, host: str = "127.0.0.1", port: int = 22222):
+    def __init__(self, host: str = "127.0.0.1", port: int = 12222):
         self.host = host
         self.port = port
         self.sock = None  # 初始化时没有socket连接
@@ -110,12 +110,12 @@ class CppConnector:
 connector_instance: CppConnector | None = None
 
 @mcp.tool()
-def connect_cpp(port: int = 22222) -> str:
+def connect_cpp(port: int = 12222) -> str:
     """
     创建一个到C++服务器的持久连接。
     如果已有连接，会先断开旧的再建立新的。
     args:
-        port (int): C++服务器监听的端口号，默认为22222。
+        port (int): C++服务器监听的端口号，默认为12222。
     """
     global connector_instance
     connector_instance = CppConnector(port=port)

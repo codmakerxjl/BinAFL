@@ -112,6 +112,8 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -142,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="client_test.h" />
     <ClInclude Include="detours.h" />
+    <ClInclude Include="FileCacheManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="hijacker.h" />
     <ClInclude Include="FileLogger.h" />
@@ -153,6 +156,7 @@
   <ItemGroup>
     <ClCompile Include="client_test.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="FileCacheManager.cpp" />
     <ClCompile Include="hijacker.cpp" />
     <ClCompile Include="FileLogger.cpp" />
     <ClCompile Include="MessageFilter.cpp" />

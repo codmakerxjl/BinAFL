@@ -86,10 +86,31 @@ public:
      */
     size_t getSequenceSize() const;
 
+    /**
+     * @brief 从指定目录加载所有符合条件的序列文件，并将它们合并到一个总的消息队列中。
+     * 这个函数会先清空之前聚合的队列。
+     * @param directory 包含消息日志文件的目录。
+     * @param prefix 文件名前缀，用于筛选文件（例如 "message_"）。
+     * @return 成功加载并解析了至少一个文件返回 true，否则返回 false。
+     */
+    bool loadAndAggregateSequences(const std::string& directory, const std::string& prefix);
+
+    /**
+     * @brief 重放由 loadAndAggregateSequences 函数加载的聚合消息队列。
+     * 如果队列为空，则不执行任何操作。
+     * @param delayBetweenMessagesMs 每条消息之间的延迟（毫秒）。
+     */
+    void replayAggregatedSequence(int delayBetweenMessagesMs = 0) const;
+
+    /**
+     * @brief 清空已聚合的消息队列，释放内存。
+     */
+    void clearAggregatedSequence();
+
 private:
     std::vector<ReplayMessage> m_messageSequence;
     std::vector<std::string> m_effectiveFiles; // 用于存储有效文件路径的成员变量
-
+    std::vector<ReplayMessage> m_aggregatedSequence;
     // 私有辅助函数，用于解析单行日志文本
     std::optional<ReplayMessage> parseLine(const std::string& line) const;
 };

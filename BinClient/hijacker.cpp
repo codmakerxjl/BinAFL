@@ -8,10 +8,12 @@
 #include <sstream>
 #include <codecvt>
 #include <locale>
+#include "FileCacheManager.h"
 static LRESULT(WINAPI* TrueDispatchMessageW)(const MSG* lpMsg) = DispatchMessageW;
+static BOOL(WINAPI* TrueReadFile)(HANDLE, LPVOID, DWORD, LPDWORD, LPOVERLAPPED) = ReadFile;
 //记录日志是否开启的原子标志
 static std::atomic<bool> g_isLoggingActive = false;
-
+FileCacheManager g_FileCache(1000, 4096); //缓存1000，最大4096
 std::string MessageIDToString(UINT msg) {
 	// 该映射表只会在第一次调用时被初始化
 	static const std::map<UINT, std::string> msgMap = {
@@ -266,7 +268,27 @@ std::string MessageIDToString(UINT msg) {
 	return oss.str();
 }
 
+BOOL WINAPI HookedReadFile(
+	HANDLE       hFile,
+	LPVOID       lpBuffer,
+	DWORD        nNumberOfBytesToRead,
+	LPDWORD      lpNumberOfBytesRead,
+	LPOVERLAPPED lpOverlapped
+) {
+	if (g_FileCache.TryGetFromCache(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped)) {
+		// 缓存命中，直接返回成功
+		return TRUE;
+	}
+	BOOL bSuccess = TrueReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
 
+
+	if (bSuccess && lpNumberOfBytesRead != nullptr && *lpNumberOfBytesRead > 0) {
+		g_FileCache.PutInCache(hFile, lpBuffer, *lpNumberOfBytesRead, lpOverlapped);
+	}
+
+	return bSuccess;
+	
+}
 
 LRESULT WINAPI HackedDispatchMessageW(const MSG* lpMsg) {
 	if (g_isLoggingActive && lpMsg != nullptr) {
@@ -318,6 +340,7 @@ bool AttachHooks() {
 		DetourTransactionBegin();
 		DetourUpdateThread(GetCurrentThread());
 		DetourAttach(&(PVOID&)TrueDispatchMessageW, HackedDispatchMessageW);
+		//DetourAttach(&(PVOID&)TrueReadFile, HookedReadFile);
 		if (DetourTransactionCommit() != NO_ERROR) {
 			FileLogger::GetInstance().Log(0, L"--- !! HOOK ATTACHMENT FAILED !! ---");
 			return false;
@@ -332,6 +355,7 @@ bool DetachHooks() {
 		DetourTransactionBegin();
 		DetourUpdateThread(GetCurrentThread());
 		DetourDetach(&(PVOID&)TrueDispatchMessageW, HackedDispatchMessageW);
+		//DetourDetach(&(PVOID&)TrueReadFile, HookedReadFile);
 		DetourTransactionCommit();
 		FileLogger::GetInstance().Log(0, L"--- Hooks Detached ---");
 		FileLogger::GetInstance().Shutdown(); // 在这里会将所有剩余日志刷入文件
