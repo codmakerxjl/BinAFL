@@ -42,30 +42,12 @@
     <ClCompile Include="util\start_process.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="util\afl_mutator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="start_process.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="SharedMemoryIPC.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="server_test.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ipc_control.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandController.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Agent.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="message_replayer.h">
+    <ClInclude Include="afl_mutator.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

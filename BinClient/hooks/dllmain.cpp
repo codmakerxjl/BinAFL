@@ -25,7 +25,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
 
         MessageBox(NULL, L"BinClient Attached to Process!", L"Notification", MB_OK | MB_ICONINFORMATION);
-        //run_fuzzing_speed_test();
         AttachHooks();
         std::thread(ControlThreadProc).detach(); //用来接受server的命令
         break;

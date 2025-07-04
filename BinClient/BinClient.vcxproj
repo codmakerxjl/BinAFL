@@ -115,14 +115,15 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp14</LanguageStandard>
+      <LanguageStandard>Default</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
+      <AdditionalIncludeDirectories>E:\ICT\masterRecording\BinAFL\BinClient\hooks;E:\ICT\masterRecording\BinAFL\BinClient\include;E:\ICT\masterRecording\BinAFL\BinClient\ipc;E:\ICT\masterRecording\BinAFL\BinClient\lib;E:\ICT\masterRecording\BinAFL\BinClient\util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>./lib/detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>E:\proj_chall\binafl\BinAFL\BinClient\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -150,6 +151,7 @@
     <ClCompile Include="hooks\dllmain.cpp" />
     <ClCompile Include="hooks\hijacker.cpp" />
     <ClCompile Include="ipc\SharedMemoryIPC.cpp" />
+    <ClCompile Include="util\FileCacheManager.cpp" />
     <ClCompile Include="util\FileLogger.cpp" />
     <ClCompile Include="util\MessageFilter.cpp" />
     <ClCompile Include="util\pch.cpp">

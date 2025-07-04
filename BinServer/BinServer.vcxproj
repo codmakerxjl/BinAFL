@@ -108,6 +108,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>E:\ICT\masterRecording\BinAFL\BinServer;E:\ICT\masterRecording\BinAFL\BinServer\agent;E:\ICT\masterRecording\BinAFL\BinServer\include;E:\ICT\masterRecording\BinAFL\BinServer\ipc;E:\ICT\masterRecording\BinAFL\BinServer\replayer;E:\ICT\masterRecording\BinAFL\BinServer\util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,6 +137,7 @@
     <ClCompile Include="BinServer.cpp" />
     <ClCompile Include="ipc\SharedMemoryIPC.cpp" />
     <ClCompile Include="replayer\message_replayer.cpp" />
+    <ClCompile Include="util\afl_mutator.cpp" />
     <ClCompile Include="util\CommandController.cpp" />
     <ClCompile Include="util\pch.cpp" />
     <ClCompile Include="util\server_test.cpp" />
@@ -143,14 +145,7 @@
     <ClCompile Include="util\start_process.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Agent.h" />
-    <ClInclude Include="CommandController.h" />
-    <ClInclude Include="ipc_control.h" />
-    <ClInclude Include="message_replayer.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="server_test.h" />
-    <ClInclude Include="SharedMemoryIPC.h" />
-    <ClInclude Include="start_process.h" />
+    <ClInclude Include="afl_mutator.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

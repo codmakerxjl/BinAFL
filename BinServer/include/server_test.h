@@ -9,3 +9,4 @@
  * @param dllPath Path to the DLL to be injected.
  */
 void run_server_test(PROCESS_INFORMATION& pi, const std::wstring& executablePath, const std::wstring& dllPath);
+void run_afl_mutator_tests();

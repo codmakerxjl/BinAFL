@@ -39,7 +39,7 @@
     <ClCompile Include="util\SimpleIniParser.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="FileCacheManager.cpp">
+    <ClCompile Include="util\FileCacheManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

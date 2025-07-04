@@ -10,6 +10,7 @@
 #include <sstream>
 #include <codecvt>
 #include <locale>
+#include "FileCacheManager.h"
 // #include "SimpleIniParser.h"
 static LRESULT(WINAPI* TrueDispatchMessageW)(const MSG* lpMsg) = DispatchMessageW;
 static BOOL(WINAPI* TrueReadFile)(HANDLE, LPVOID, DWORD, LPDWORD, LPOVERLAPPED) = ReadFile;

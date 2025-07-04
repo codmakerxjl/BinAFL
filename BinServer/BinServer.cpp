@@ -9,6 +9,7 @@
 #include "SimpleIniParser.h"
 #include "CommandController.h"
 #include "message_replayer.h"
+#include "server_test.h"
 std::atomic<bool> g_bExitLogThread = false;
 
 int main(int argc, char* argv[])
@@ -103,7 +104,7 @@ int main(int argc, char* argv[])
     //// Call the single function that runs the entire test.
     
     //run_server_test(pi, executablePath, dllPath);
-
+    run_afl_mutator_tests();
 
 
 
