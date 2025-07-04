@@ -6,7 +6,18 @@ from typing import Any
 from mcp.server.fastmcp import FastMCP
 import os
 
+# from config_loader import get_config
+# cfg = get_config()
+# server_ip: str = get_value("AgentServer", "host", fallback="127.0.0.1", cast_type=str)
+# server_port: int = get_value("AgentServer", "port", fallback=22222, cast_type=int)
 
+server_ip="127.0.0.1"
+server_port=22222
+
+# print(server_ip)
+# print(server_port)
+
+# pause()
 # Initialize FastMCP server
 mcp = FastMCP("BinAgentServer")
 import socket
@@ -16,7 +27,7 @@ class CppConnector:
     """
     一个管理与C++服务器持久连接的类，具有独立的 send 和 receive 方法。
     """
-    def __init__(self, host: str = "127.0.0.1", port: int = 12222):
+    def __init__(self, host: str = server_ip, port: int = server_port):
         self.host = host
         self.port = port
         self.sock = None  # 初始化时没有socket连接
@@ -110,7 +121,7 @@ class CppConnector:
 connector_instance: CppConnector | None = None
 
 @mcp.tool()
-def connect_cpp(port: int = 12222) -> str:
+def connect_cpp(port: int = server_port) -> str:
     """
     创建一个到C++服务器的持久连接。
     如果已有连接，会先断开旧的再建立新的。

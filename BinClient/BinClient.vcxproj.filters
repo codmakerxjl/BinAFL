@@ -15,61 +15,64 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="detours.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="hijacker.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="SharedMemoryIPC.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="client_test.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FileLogger.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="MessageFilter.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ipc_control.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FileCacheManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="hijacker.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SharedMemoryIPC.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="client_test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="FileLogger.cpp">
+    <ClCompile Include="hooks\dllmain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="MessageFilter.cpp">
+    <ClCompile Include="hooks\hijacker.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ipc\SharedMemoryIPC.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="util\FileLogger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="util\MessageFilter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="util\pch.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="util\SimpleIniParser.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="FileCacheManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\client_test.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\detours.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FileLogger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\framework.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\hijacker.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ipc_control.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MessageFilter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pch.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SharedMemoryIPC.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SimpleIniParser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,21 +1,23 @@
 #include "pch.h"
+#include "SimpleIniParser.h"
+// #include "pch.h"
 #include "hijacker.h"
 #include "detours.h"
 #include "FileLogger.h"
-#include "MessageFilter.h" // ÒýÈëÐÂµÄ¹ýÂËÆ÷Ä£¿é
+#include "MessageFilter.h" // ï¿½ï¿½ï¿½ï¿½ï¿½ÂµÄ¹ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
 #include <map>
 #include <string>
 #include <sstream>
 #include <codecvt>
 #include <locale>
-#include "FileCacheManager.h"
+// #include "SimpleIniParser.h"
 static LRESULT(WINAPI* TrueDispatchMessageW)(const MSG* lpMsg) = DispatchMessageW;
 static BOOL(WINAPI* TrueReadFile)(HANDLE, LPVOID, DWORD, LPDWORD, LPOVERLAPPED) = ReadFile;
-//¼ÇÂ¼ÈÕÖ¾ÊÇ·ñ¿ªÆôµÄÔ­×Ó±êÖ¾
+//ï¿½ï¿½Â¼ï¿½ï¿½Ö¾ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½Ó±ï¿½Ö¾
 static std::atomic<bool> g_isLoggingActive = false;
-FileCacheManager g_FileCache(1000, 4096); //»º´æ1000£¬×î´ó4096
+FileCacheManager g_FileCache(1000, 4096); //ï¿½ï¿½ï¿½ï¿½1000ï¿½ï¿½ï¿½ï¿½ï¿½4096
 std::string MessageIDToString(UINT msg) {
-	// ¸ÃÓ³Éä±íÖ»»áÔÚµÚÒ»´Îµ÷ÓÃÊ±±»³õÊ¼»¯
+	// ï¿½ï¿½Ó³ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Úµï¿½Ò»ï¿½Îµï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 	static const std::map<UINT, std::string> msgMap = {
 						// General Window Messages (0x0000 - 0x002E)
 				{WM_NULL, "WM_NULL"},
@@ -237,27 +239,27 @@ std::string MessageIDToString(UINT msg) {
 				{WM_THEMECHANGED, "WM_THEMECHANGED"}
 	};
 
-	// 1. ³¢ÊÔÔÚÓ³Éä±íÖÐ²éÕÒÏûÏ¢
+	// 1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	auto it = msgMap.find(msg);
 	if (it != msgMap.end()) {
 		return it->second;
 	}
 
-	// 2. ´¦Àí WM_USER ×Ô¶¨ÒåÓÃ»§ÏûÏ¢
+	// 2. ï¿½ï¿½ï¿½ï¿½ WM_USER ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¢
 	if (msg >= WM_USER && msg < WM_APP) {
 		std::ostringstream oss;
 		oss << "WM_USER+" << (msg - WM_USER);
 		return oss.str();
 	}
 
-	// 3. ´¦Àí WM_APP ×Ô¶¨ÒåÓ¦ÓÃÏûÏ¢
+	// 3. ï¿½ï¿½ï¿½ï¿½ WM_APP ï¿½Ô¶ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ï¢
 	if (msg >= WM_APP && msg <= 0xBFFF) {
 		std::ostringstream oss;
 		oss << "WM_APP+" << (msg - WM_APP);
 		return oss.str();
 	}
 
-	// 4. ´¦ÀíÒÑ×¢²áµÄ´°¿ÚÏûÏ¢»òÆäËûÎ´ÖªÏûÏ¢
+	// 4. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´Öªï¿½ï¿½Ï¢
 	std::ostringstream oss;
 	if (msg >= 0xC000 && msg <= 0xFFFF) {
 		oss << "Registered Message (0x" << std::hex << std::uppercase << msg << ")";
@@ -276,7 +278,7 @@ BOOL WINAPI HookedReadFile(
 	LPOVERLAPPED lpOverlapped
 ) {
 	if (g_FileCache.TryGetFromCache(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped)) {
-		// »º´æÃüÖÐ£¬Ö±½Ó·µ»Ø³É¹¦
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£ï¿½Ö±ï¿½Ó·ï¿½ï¿½Ø³É¹ï¿½
 		return TRUE;
 	}
 	BOOL bSuccess = TrueReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
@@ -292,23 +294,23 @@ BOOL WINAPI HookedReadFile(
 
 LRESULT WINAPI HackedDispatchMessageW(const MSG* lpMsg) {
 	if (g_isLoggingActive && lpMsg != nullptr) {
-		// 1. ´Ó¹ýÂËÆ÷»ñÈ¡´¦Àí¶¯×÷
+		// 1. ï¿½Ó¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		FilterAction action = MessageFilter::GetInstance().check(lpMsg->message);
 
-		// 2. ¸ù¾Ý¶¯×÷Ö´ÐÐ²Ù×÷
+		// 2. ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½ï¿½Ö´ï¿½Ð²ï¿½ï¿½ï¿½
 		if (action == FilterAction::BLACKLIST_AND_FILTER) {
-			// ÕâÊÇµÚÒ»´Î³¬ÏÞ£¬´Ó»º³åÇøÖÐÉ¾³ý¸ÃÏûÏ¢µÄËùÓÐÀúÊ·¼ÇÂ¼
+			// ï¿½ï¿½ï¿½Çµï¿½Ò»ï¿½Î³ï¿½ï¿½Þ£ï¿½ï¿½Ó»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê·ï¿½ï¿½Â¼
 			FileLogger::GetInstance().RemoveMessagesFromBuffer(lpMsg->message);
-			// ×¢Òâ£ºµ±Ç°ÕâÌõÏûÏ¢²»»á±»¼ÇÂ¼
+			// ×¢ï¿½â£ºï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½á±»ï¿½ï¿½Â¼
 		}
 		else if (action == FilterAction::LOG) {
-			// Õý³£¼ÇÂ¼ÕâÌõÏûÏ¢
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 			std::string msgString = MessageIDToString(lpMsg->message);
 			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 			std::wstring msgWideString = converter.from_bytes(msgString);
 
 			FileLogger::GetInstance().Log(
-				lpMsg->message, // ´«ÈëÏûÏ¢ID
+				lpMsg->message, // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ID
 				L"HWND: 0x%p, Msg: %s (0x%X), wParam: 0x%p, lParam: 0x%p",
 				lpMsg->hwnd,
 				msgWideString.c_str(),
@@ -317,12 +319,12 @@ LRESULT WINAPI HackedDispatchMessageW(const MSG* lpMsg) {
 				lpMsg->lParam
 			);
 		}
-		// Èç¹û¶¯×÷ÊÇ FilterAction::FILTER£¬ÔòÊ²Ã´¶¼²»×ö
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ FilterAction::FILTERï¿½ï¿½ï¿½ï¿½Ê²Ã´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	}
 	return TrueDispatchMessageW(lpMsg);
 }
 
-// ¿ØÖÆº¯ÊýÊµÏÖ
+// ï¿½ï¿½ï¿½Æºï¿½ï¿½ï¿½Êµï¿½ï¿½
 void StartMessageLogging() {
 	g_isLoggingActive = true;
 	FileLogger::GetInstance().Log(0, L"--- Logging Started by Server Command ---");
@@ -334,9 +336,15 @@ void StopMessageLogging() {
 }
 
 bool AttachHooks() {
+	SimpleIniParser parser;
+	if (!parser.load("config.ini")) {
+        std::cerr << "ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½" << std::endl;
+        return 1;
+    }
+	std::string logFilePath=parser.get("server", "logFilePath");
 	try {
-		FileLogger::GetInstance().Init(L"hooked_messages.log");
-		FileLogger::GetInstance().Log(0, L"--- Hooks Attached ---"); // Ê¹ÓÃÒ»¸öÌØÊâID (0)
+		FileLogger::GetInstance().Init(std::wstring(logFilePath.begin(), logFilePath.end()));
+		FileLogger::GetInstance().Log(0, L"--- Hooks Attached ---"); // Ê¹ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ID (0)
 		DetourTransactionBegin();
 		DetourUpdateThread(GetCurrentThread());
 		DetourAttach(&(PVOID&)TrueDispatchMessageW, HackedDispatchMessageW);
@@ -358,7 +366,7 @@ bool DetachHooks() {
 		//DetourDetach(&(PVOID&)TrueReadFile, HookedReadFile);
 		DetourTransactionCommit();
 		FileLogger::GetInstance().Log(0, L"--- Hooks Detached ---");
-		FileLogger::GetInstance().Shutdown(); // ÔÚÕâÀï»á½«ËùÓÐÊ£ÓàÈÕÖ¾Ë¢ÈëÎÄ¼þ
+		FileLogger::GetInstance().Shutdown(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½«ï¿½ï¿½ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½Ö¾Ë¢ï¿½ï¿½ï¿½Ä¼ï¿½
 	}
 	catch (...) { return false; }
 	return true;
