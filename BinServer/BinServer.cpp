@@ -10,7 +10,6 @@
 #include "CommandController.h"
 #include "message_replayer.h"
 #include "server_test.h"
-#include "SharedBitmap.h"
 std::atomic<bool> g_bExitLogThread = false;
 
 // 将 replayer 定义为全局指针，以便 FuzzTarget 函数可以访问它
