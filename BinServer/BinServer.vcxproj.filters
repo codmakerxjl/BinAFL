@@ -45,9 +45,18 @@
     <ClCompile Include="util\afl_mutator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SharedBitmap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="injector.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="afl_mutator.h">
+    <ClInclude Include="SharedBitmap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="injector.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

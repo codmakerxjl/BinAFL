@@ -117,7 +117,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>Default</LanguageStandard>
       <LanguageStandard_C>Default</LanguageStandard_C>
-      <AdditionalIncludeDirectories>E:\ICT\masterRecording\BinAFL\BinClient\hooks;E:\ICT\masterRecording\BinAFL\BinClient\include;E:\ICT\masterRecording\BinAFL\BinClient\ipc;E:\ICT\masterRecording\BinAFL\BinClient\lib;E:\ICT\masterRecording\BinAFL\BinClient\util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\ICT\masterRecording\BinAFL\BinClient\hooks;E:\ICT\masterRecording\BinAFL\BinClient\include;E:\ICT\masterRecording\BinAFL\BinClient\ipc;E:\ICT\masterRecording\BinAFL\BinClient\lib;E:\ICT\masterRecording\BinAFL\BinClient\util;E:\ICT\masterRecording\harness\DynamoRIO-Windows-11.3.0\DynamoRIO\include;E:\ICT\masterRecording\harness\DynamoRIO-Windows-11.3.0\DynamoRIO\ext\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,10 +147,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="client_test.cpp" />
     <ClCompile Include="hooks\dllmain.cpp" />
     <ClCompile Include="hooks\hijacker.cpp" />
     <ClCompile Include="ipc\SharedMemoryIPC.cpp" />
+    <ClCompile Include="util\client_test.cpp" />
     <ClCompile Include="util\FileCacheManager.cpp" />
     <ClCompile Include="util\FileLogger.cpp" />
     <ClCompile Include="util\MessageFilter.cpp" />

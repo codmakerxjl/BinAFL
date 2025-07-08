@@ -17,7 +17,7 @@ void run_server_test(PROCESS_INFORMATION& pi, const std::wstring& executablePath
         wprintf(L"IPC Server started, shared memory created.\n");
 
         // 2. Start target process and inject our client DLL.
-        if (startAndInjectProcess(pi, executablePath, dllPath)) {
+        if (startAndInjectProcess(pi, executablePath, dllPath,NULL)) {
             wprintf(L"DLL injected successfully. Server will start sending data...\n");
 
             // 3. Loop to send data.

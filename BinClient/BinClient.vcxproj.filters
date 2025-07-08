@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="client_test.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="hooks\dllmain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -40,6 +37,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="util\FileCacheManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="util\client_test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

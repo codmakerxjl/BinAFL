@@ -108,7 +108,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>E:\ICT\masterRecording\BinAFL\BinServer;E:\ICT\masterRecording\BinAFL\BinServer\agent;E:\ICT\masterRecording\BinAFL\BinServer\include;E:\ICT\masterRecording\BinAFL\BinServer\ipc;E:\ICT\masterRecording\BinAFL\BinServer\replayer;E:\ICT\masterRecording\BinAFL\BinServer\util;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\ICT\masterRecording\BinAFL\BinServer;E:\ICT\masterRecording\BinAFL\BinServer\agent;E:\ICT\masterRecording\BinAFL\BinServer\include;E:\ICT\masterRecording\BinAFL\BinServer\ipc;E:\ICT\masterRecording\BinAFL\BinServer\replayer;E:\ICT\masterRecording\BinAFL\BinServer\util;E:\ICT\masterRecording\harness\winafl;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,8 +135,10 @@
   <ItemGroup>
     <ClCompile Include="agent\Agent.cpp" />
     <ClCompile Include="BinServer.cpp" />
+    <ClCompile Include="injector.cpp" />
     <ClCompile Include="ipc\SharedMemoryIPC.cpp" />
     <ClCompile Include="replayer\message_replayer.cpp" />
+    <ClCompile Include="SharedBitmap.cpp" />
     <ClCompile Include="util\afl_mutator.cpp" />
     <ClCompile Include="util\CommandController.cpp" />
     <ClCompile Include="util\pch.cpp" />
@@ -145,7 +147,8 @@
     <ClCompile Include="util\start_process.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="afl_mutator.h" />
+    <ClInclude Include="injector.h" />
+    <ClInclude Include="SharedBitmap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

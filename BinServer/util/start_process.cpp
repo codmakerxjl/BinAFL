@@ -1,8 +1,9 @@
 #include"start_process.h"
 
-bool startAndInjectProcess(PROCESS_INFORMATION& pi, const std::wstring& executablePath, const std::wstring& dllPath) {
+bool startAndInjectProcess(PROCESS_INFORMATION& pi, const std::wstring& executablePath, const std::wstring& dllPath, const std::wstring& arguments) {
     printf("BinAFL: ---> Entering startAndInjectProcess function\n");
     printf("BinAFL: Target executable path: %ls\n", executablePath.c_str());
+    printf("BinAFL: Target arguments: %ls\n", arguments.c_str());
     printf("BinAFL: DLL to inject path: %ls\n", dllPath.c_str());
 
     // Check if the DLL file exists
@@ -12,15 +13,21 @@ bool startAndInjectProcess(PROCESS_INFORMATION& pi, const std::wstring& executab
     }
 
     STARTUPINFOW si = { sizeof(si) };
+    std::wstring commandLine = L"\"" + executablePath + L"\" " + arguments;
+    std::vector<wchar_t> cmdLineBuff(commandLine.begin(), commandLine.end());
+    cmdLineBuff.push_back(L'\0');
 
     // 1. Create the process in a suspended state (CREATE_SUSPENDED)
     printf("BinAFL: [Step 1/7] Creating process in suspended mode...\n");
-    if (!CreateProcessW(executablePath.c_str(), NULL, NULL, NULL, FALSE, CREATE_SUSPENDED, NULL, NULL, &si, &pi)) {
+    if (!CreateProcessW(NULL,                   // lpApplicationName, 设为 NULL
+        cmdLineBuff.data(),     // lpCommandLine, 传入完整的、可写的命令行
+        NULL, NULL, FALSE, CREATE_SUSPENDED, NULL, NULL, &si, &pi)) {
         printf("BinAFL: CreateProcessW failed, error code: %lu\n", GetLastError());
-        printf("         Check: 1. Is the target executable path correct? 2. Do you have execution permissions? 3. Do the Fuzzer and target architectures (x86/x64) match?\n");
+        printf("          Check: 1. Is the target executable path correct? 2. Do you have execution permissions? 3. Do the Fuzzer and target architectures (x86/x64) match?\n");
         return false;
     }
     printf("BinAFL: Process created successfully (PID: %lu, TID: %lu)\n", pi.dwProcessId, pi.dwThreadId);
+
 
     // 2. Allocate memory in the target process for the DLL path
     printf("BinAFL: [Step 2/7] Allocating memory in the target process...\n");

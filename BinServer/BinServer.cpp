@@ -10,14 +10,28 @@
 #include "CommandController.h"
 #include "message_replayer.h"
 #include "server_test.h"
+#include "SharedBitmap.h"
 std::atomic<bool> g_bExitLogThread = false;
+
+// 将 replayer 定义为全局指针，以便 FuzzTarget 函数可以访问它
+std::unique_ptr<MessageReplayer> g_replayer = nullptr;
+
+//
+// 这是我们新的目标函数，WinAFL 将会反复调用它。
+// 必须使用 extern "C" 和 __declspec(dllexport) 将其导出，以便 WinAFL 按名称找到它。
+//
+extern "C" __declspec(dllexport) void FuzzTarget() {
+    if (g_replayer) {
+        g_replayer->replayAggregatedSequence(100);
+    }
+}
 
 int main(int argc, char* argv[])
 {   
     // Check for correct command-line arguments.
-    if (argc != 3) {
-        fprintf(stderr, "Usage: %s <executable_path> <dll_path>\n", argv[0]);
-        return 1;
+    if (argc < 3) {
+        fprintf(stderr, "Usage: %s <executable_path> <dll_path> [arguments...]\n", argv[0]);
+        return -1;
     }
 
     SimpleIniParser parser;
@@ -39,15 +53,26 @@ int main(int argc, char* argv[])
     std::wstring executablePath(exec_str.begin(), exec_str.end());
     std::wstring dllPath(dll_str.begin(), dll_str.end());
 
+    std::wstring arguments;
+    for (int i = 3; i < argc; ++i) {
+        std::string arg_str(argv[i]);
+        // 为每个参数加上引号并用空格隔开
+        arguments += L"\"" + std::wstring(arg_str.begin(), arg_str.end()) + L"\" ";
+    }
+    if (!arguments.empty()) {
+        arguments.pop_back();
+    }
     SharedMemoryIPC ipc(SharedMemoryIPC::Role::SERVER); //ipc初始化
 
     CommandController controller(ipc); //初始化
+    //创建并初始化 SharedBitmap 监控器 (在启动子进程之前)
 
     wprintf(L"Target Executable: %s\n", executablePath.c_str());
     wprintf(L"Target DLL: %s\n", dllPath.c_str());
+    wprintf(L"Target Arguments: %s\n", arguments.c_str());
     PROCESS_INFORMATION pi = { 0 }; // Initialize to zero.
 
-    startAndInjectProcess(pi, executablePath, dllPath); //启动目标程序并且注入dll
+    startAndInjectProcess(pi, executablePath, dllPath, arguments);
     controller.StartLogging();
 
     Sleep(waitingTime);
@@ -67,30 +92,33 @@ int main(int argc, char* argv[])
     controller.StopLogging();
 
     // 1. 创建一个消息重放器实例
-    MessageReplayer replayer;
-    replayer.runInteractiveSession(messageFolderPath, messagePrefix);
+    g_replayer = std::make_unique<MessageReplayer>();
+    g_replayer->runInteractiveSession(messageFolderPath, messagePrefix);
 
     // 3. 会话结束后，将所有被标记为“有效”的文件保存到 "effective_sequences" 文件夹
-    replayer.saveEffectiveFiles(effectiveMsgFolder);
+    g_replayer->saveEffectiveFiles(effectiveMsgFolder);
 
     // 4. 打印最终结果
     std::cout << "\nInteractive session finished." << std::endl;
-    std::cout << "A total of " << replayer.getEffectiveFiles().size() << " sequences were marked as effective." << std::endl;
+    std::cout << "A total of " << g_replayer->getEffectiveFiles().size() << " sequences were marked as effective." << std::endl;
 
 
     // 1. 一次性加载所有有效文件到内存中的主队列
     // 这个操作可能需要几秒钟，取决于文件数量和大小
     std::cout << "Loading all effective sequences into memory..." << std::endl;
-    if (replayer.loadAndAggregateSequences("effective_sequences", "message_")) {
+    if (g_replayer->loadAndAggregateSequences("effective_sequences", "message_")) {
 
         // 2. 现在可以快速地、多次地重放整个聚合序列，无需再读文件
         std::cout << "\nPress ENTER to replay the entire aggregated sequence for the first time.";
-        std::cin.get();
-        replayer.replayAggregatedSequence(10); // 以10毫秒的延迟重放
+        g_replayer->replayAggregatedSequence(10); // 以10毫秒的延迟重放
 
         std::cout << "\nPress ENTER to replay it again instantly.";
-        std::cin.get();
-        replayer.replayAggregatedSequence(10); // 再次重放
+        g_replayer->replayAggregatedSequence(10); // 再次重放
+
+        while (true) {
+            FuzzTarget();
+        }
+
 
         // 3. 如果需要，可以清空队列
         // replayer.clearAggregatedSequence();
@@ -98,13 +126,13 @@ int main(int argc, char* argv[])
     else {
         std::cout << "Failed to load any sequences. Please check the directory and prefix." << std::endl;
     }
-    WaitForSingleObject(pi.hProcess, INFINITE);
+    //WaitForSingleObject(pi.hProcess, INFINITE);
 
     //@这里是测试通讯管道的代码
     //// Call the single function that runs the entire test.
     
     //run_server_test(pi, executablePath, dllPath);
-    run_afl_mutator_tests();
+    //run_afl_mutator_tests();
 
 
 
